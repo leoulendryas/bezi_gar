@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "በዚህ ጋር - Easy Pickup Directions",
   description: "Share your exact location and landmarks with drivers in Addis Ababa.",
-  icons: {
-    icon: "/favicon.svg",
-  },
 };
 
 export default function RootLayout({
@@ -21,7 +19,12 @@ export default function RootLayout({
         <div className="content-wrapper">
           {children}
         </div>
+        <Analytics />
       </body>
+    </html>
+  );
+}
+
     </html>
   );
 }
