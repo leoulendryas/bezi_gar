@@ -66,6 +66,32 @@ const Logo = ({ lang }: { lang: 'en' | 'am' }) => (
   </div>
 );
 
+const PhotoPreview = ({ file, index, onDelete }: { file: File, index: number, onDelete: () => void }) => {
+  const [url, setUrl] = useState<string>('');
+
+  useEffect(() => {
+    const objectUrl = URL.createObjectURL(file);
+    setUrl(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [file]);
+
+  if (!url) return <div className="photo-item" style={{ background: 'var(--border)' }} />;
+
+  return (
+    <div className="photo-item">
+      <img src={url} alt={`Landmark ${index + 1}`} />
+      <div className="photo-number">{index + 1}</div>
+      <button 
+        className="photo-delete" 
+        onClick={onDelete}
+        aria-label="Delete photo"
+      >
+        ×
+      </button>
+    </div>
+  );
+};
+
 export default function Home() {
   const [lang, setLang] = useState<'en' | 'am'>('am');
   const [directions, setDirections] = useState('');
@@ -164,7 +190,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div style={{ marginTop: '5rem' }}>
+      <div style={{ marginTop: '2rem' }}>
         <p className="tagline">{t.tagline}</p>
       </div>
 
@@ -195,7 +221,10 @@ export default function Home() {
 
       <div className="card card-photos">
         <h3>{t.imgTitle}</h3>
-        <p style={{ fontSize: '0.8rem', color: 'var(--muted)', marginBottom: '1rem' }}>{t.imgDesc}</p>
+        <p style={{ fontSize: '0.8rem', color: 'var(--muted)', marginBottom: '0.25rem' }}>{t.imgDesc}</p>
+        <p style={{ fontSize: '0.7rem', color: 'var(--accent-img)', marginBottom: '1rem', fontWeight: 500 }}>
+          {lang === 'en' ? 'Photos will be shown in this order.' : 'ፎቶዎቹ በሚታዩበት ቅደም ተከተል ይቀመጣሉ::'}
+        </p>
         <input type="file" accept="image/*" onChange={handlePhotoUpload} style={{ display: 'none' }} id="photo-upload" />
         <label htmlFor="photo-upload" className="button-outline" style={{ display: 'block', textAlign: 'center', cursor: 'pointer' }}>
           {t.imgBtn} ({photoFiles.length}/10)
@@ -203,9 +232,7 @@ export default function Home() {
         
         <div className="photo-grid">
           {photoFiles.map((f, i) => (
-            <div key={i} className="photo-item">
-              <img src={URL.createObjectURL(f)} alt="Landmark" />
-            </div>
+            <PhotoPreview key={`${f.name}-${i}`} file={f} index={i} onDelete={() => setPhotoFiles(prev => prev.filter((_, index) => index !== i))} />
           ))}
         </div>
       </div>

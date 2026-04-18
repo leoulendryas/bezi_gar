@@ -105,7 +105,7 @@ function PinViewContent({ id }: { id: string }) {
         </div>
       </div>
 
-      <div style={{ marginTop: '5rem' }}>
+      <div style={{ marginTop: '2rem' }}>
         <p className="tagline">{t.tagline}</p>
       </div>
       
@@ -123,21 +123,30 @@ function PinViewContent({ id }: { id: string }) {
         </a>
       </div>
 
-      {data.directions && (
-        <div className="card card-directions">
-          <h3>{t.instrTitle}</h3>
-          <p style={{ lineHeight: '1.6', fontSize: '1.1rem' }}>{data.directions}</p>
-        </div>
-      )}
-
       {data.photos && data.photos.length > 0 && (
         <div className="card card-photos">
           <h3>{t.marksTitle}</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
             {data.photos.map((url: string, i: number) => (
-              <img key={i} src={url} alt={`Landmark ${i+1}`} style={{ width: '100%', borderRadius: '12px', border: '1px solid var(--border)' }} />
+              <div key={i} style={{ position: 'relative' }}>
+                <img 
+                  src={url} 
+                  alt={`Landmark ${i+1}`} 
+                  className="clickable-img"
+                  style={{ width: '100%', borderRadius: '12px', border: '1px solid var(--border)' }} 
+                  onClick={() => window.open(url, '_blank')}
+                />
+                <div className="photo-number">{i + 1}</div>
+              </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {data.directions && (
+        <div className="card card-directions">
+          <h3>{t.instrTitle}</h3>
+          <p style={{ lineHeight: '1.6', fontSize: '1.1rem' }}>{data.directions}</p>
         </div>
       )}
 
