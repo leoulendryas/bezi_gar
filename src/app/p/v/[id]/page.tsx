@@ -164,6 +164,7 @@ function PinViewContent({ id }: { id: string }) {
         {t.footer}
       </footer>
     </main>
+    </>
   );
 }
 
