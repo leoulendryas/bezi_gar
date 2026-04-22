@@ -50,8 +50,8 @@ const Logo = ({ lang }: { lang: 'en' | 'am' }) => (
 function PinViewContent({ id }: { id: string }) {
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-  const [lang, setLang] = useState<'en' | 'am'>('am');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [lang, setLang] = useState<'en' | 'am'>('en');
 
   const supabase = createClient();
   const t = translations[lang];
@@ -92,22 +92,25 @@ function PinViewContent({ id }: { id: string }) {
   const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${data.lat},${data.lng}`;
 
   return (
-    <main className="container">
-      <div className="header-nav">
-        <Logo lang={lang} />
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button className="theme-toggle-btn" onClick={() => setLang(lang === 'en' ? 'am' : 'en')}>
-            {lang === 'en' ? 'አማርኛ' : 'English'}
-          </button>
-          <button className="theme-toggle-btn" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
-            {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
-          </button>
+    <>
+      <nav className="navbar">
+        <div className="nav-content">
+          <Logo lang={lang} />
+          <div className="nav-actions">
+            <button className="theme-toggle-btn" onClick={() => setLang(lang === 'en' ? 'am' : 'en')}>
+              {lang === 'en' ? 'አማርኛ' : 'English'}
+            </button>
+            <button className="theme-toggle-btn" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+              {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+            </button>
+          </div>
         </div>
-      </div>
+      </nav>
 
-      <div style={{ marginTop: '2rem' }}>
-        <p className="tagline">{t.tagline}</p>
-      </div>
+      <main className="container">
+        <div style={{ marginTop: '1rem' }}>
+          <p className="tagline">{t.tagline}</p>
+        </div>
       
       <div className="card card-location">
         <h3>{t.spotTitle}</h3>

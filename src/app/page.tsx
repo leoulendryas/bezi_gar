@@ -93,14 +93,14 @@ const PhotoPreview = ({ file, index, onDelete }: { file: File, index: number, on
 };
 
 export default function Home() {
-  const [lang, setLang] = useState<'en' | 'am'>('am');
+  const [lang, setLang] = useState<'en' | 'am'>('en');
   const [directions, setDirections] = useState('');
   const [photoFiles, setPhotoFiles] = useState<File[]>([]);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [location, setLocation] = useState<{ lat: number, lng: number } | null>(null);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   const supabase = createClient();
   const t = translations[lang];
@@ -177,22 +177,25 @@ export default function Home() {
   };
 
   return (
-    <main className="container">
-      <div className="header-nav">
-        <Logo lang={lang} />
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button className="theme-toggle-btn" onClick={toggleLang}>
-            {lang === 'en' ? 'አማርኛ' : 'English'}
-          </button>
-          <button className="theme-toggle-btn" onClick={toggleTheme}>
-            {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
-          </button>
+    <>
+      <nav className="navbar">
+        <div className="nav-content">
+          <Logo lang={lang} />
+          <div className="nav-actions">
+            <button className="theme-toggle-btn" onClick={toggleLang}>
+              {lang === 'en' ? 'አማርኛ' : 'English'}
+            </button>
+            <button className="theme-toggle-btn" onClick={toggleTheme}>
+              {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+            </button>
+          </div>
         </div>
-      </div>
+      </nav>
 
-      <div style={{ marginTop: '2rem' }}>
-        <p className="tagline">{t.tagline}</p>
-      </div>
+      <main className="container">
+        <div style={{ marginTop: '1rem' }}>
+          <p className="tagline">{t.tagline}</p>
+        </div>
 
       <div className="card card-location">
         <h3>{t.locTitle}</h3>
